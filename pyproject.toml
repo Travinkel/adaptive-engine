@@ -1,0 +1,10 @@
+[project]
+name = "adaptive-engine"
+version = "0.1.0"
+description = "Neuro-Cognitive Diagnosis Engine (NCDE) for Cortex"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic",
+    "sqlalchemy",
+    "loguru",
+]
