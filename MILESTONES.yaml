@@ -1,0 +1,15 @@
+# Milestones for adaptive-engine
+# Part of Project Astartes
+
+milestones:
+  - id: "v0.1-alpha"
+    title: "Initial Implementation"
+    description: "Core functionality established and tested."
+    due_date: "2025-01-30"
+    status: "pending"
+
+  - id: "v1.0-stable"
+    title: "First Stable Release"
+    description: "Production-ready API with full test coverage."
+    due_date: "2025-02-28"
+    status: "pending"

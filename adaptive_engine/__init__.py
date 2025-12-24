@@ -100,6 +100,48 @@ except Exception:  # pragma: no cover
     update_struggle_weight_async = None  # type: ignore
     update_struggle_weight_sync = None  # type: ignore
 
+try:  # ZPD (Zone of Proximal Development) Engine
+    from .zpd import (  # type: ignore
+        # Main engine
+        ZPDEngine,
+        # Calculators
+        ZPDCalculator,
+        FlowChannelManager,
+        ScaffoldSelector,
+        # State classes
+        ZPDState,
+        ZPDBoundary,
+        ZPDGrowthRecord,
+        FlowChannelState,
+        ScaffoldDecision,
+        NCDEFrictionVector,
+        # Enums
+        ScaffoldType,
+        ZPDPosition,
+        FlowState,
+        StruggleType,
+        # Utilities
+        compute_friction_from_metrics,
+        ZPD_THRESHOLDS,
+    )
+except Exception:  # pragma: no cover
+    ZPDEngine = None  # type: ignore
+    ZPDCalculator = None  # type: ignore
+    FlowChannelManager = None  # type: ignore
+    ScaffoldSelector = None  # type: ignore
+    ZPDState = None  # type: ignore
+    ZPDBoundary = None  # type: ignore
+    ZPDGrowthRecord = None  # type: ignore
+    FlowChannelState = None  # type: ignore
+    ScaffoldDecision = None  # type: ignore
+    NCDEFrictionVector = None  # type: ignore
+    ScaffoldType = None  # type: ignore
+    ZPDPosition = None  # type: ignore
+    FlowState = None  # type: ignore
+    StruggleType = None  # type: ignore
+    compute_friction_from_metrics = None  # type: ignore
+    ZPD_THRESHOLDS = None  # type: ignore
+
 __all__ = [
     # Main engine
     "LearningEngine",
@@ -142,4 +184,21 @@ __all__ = [
     "prepare_struggle_update",
     "update_struggle_weight_async",
     "update_struggle_weight_sync",
+    # ZPD (Zone of Proximal Development)
+    "ZPDEngine",
+    "ZPDCalculator",
+    "FlowChannelManager",
+    "ScaffoldSelector",
+    "ZPDState",
+    "ZPDBoundary",
+    "ZPDGrowthRecord",
+    "FlowChannelState",
+    "ScaffoldDecision",
+    "NCDEFrictionVector",
+    "ScaffoldType",
+    "ZPDPosition",
+    "FlowState",
+    "StruggleType",
+    "compute_friction_from_metrics",
+    "ZPD_THRESHOLDS",
 ]
