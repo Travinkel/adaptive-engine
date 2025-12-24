@@ -142,6 +142,62 @@ except Exception:  # pragma: no cover
     compute_friction_from_metrics = None  # type: ignore
     ZPD_THRESHOLDS = None  # type: ignore
 
+try:  # Bayesian Topic Readiness (WO-AE-006)
+    from .bayesian_readiness import (  # type: ignore
+        BayesianReadinessCalculator,
+        TopicState,
+        InterventionType,
+        ReadinessScore,
+        TopicNode,
+        InterventionDecision,
+        calculate_topic_readiness,
+    )
+except Exception:  # pragma: no cover
+    BayesianReadinessCalculator = None  # type: ignore
+    TopicState = None  # type: ignore
+    InterventionType = None  # type: ignore
+    ReadinessScore = None  # type: ignore
+    TopicNode = None  # type: ignore
+    InterventionDecision = None  # type: ignore
+    calculate_topic_readiness = None  # type: ignore
+
+try:  # Cognitive Flexibility Theory (WO-AE-008)
+    from .cognitive_flexibility import (  # type: ignore
+        CFTEngine,
+        ExpertLens,
+        DomainType,
+        TransferStatus,
+        EntryPoint,
+        CaseStudy,
+        ConceptLandscape,
+        LensConfiguration,
+        LearnerCFTState,
+        BiasDetection,
+        TransferReadinessMetrics,
+        CrissCrossAction,
+        CaseLibrary,
+        PerspectiveCoverage,
+        DEFAULT_LENSES,
+        create_default_cft_engine,
+    )
+except Exception:  # pragma: no cover
+    CFTEngine = None  # type: ignore
+    ExpertLens = None  # type: ignore
+    DomainType = None  # type: ignore
+    TransferStatus = None  # type: ignore
+    EntryPoint = None  # type: ignore
+    CaseStudy = None  # type: ignore
+    ConceptLandscape = None  # type: ignore
+    LensConfiguration = None  # type: ignore
+    LearnerCFTState = None  # type: ignore
+    BiasDetection = None  # type: ignore
+    TransferReadinessMetrics = None  # type: ignore
+    CrissCrossAction = None  # type: ignore
+    CaseLibrary = None  # type: ignore
+    PerspectiveCoverage = None  # type: ignore
+    DEFAULT_LENSES = None  # type: ignore
+    create_default_cft_engine = None  # type: ignore
+
 __all__ = [
     # Main engine
     "LearningEngine",
@@ -201,4 +257,29 @@ __all__ = [
     "StruggleType",
     "compute_friction_from_metrics",
     "ZPD_THRESHOLDS",
+    # Bayesian Topic Readiness (WO-AE-006)
+    "BayesianReadinessCalculator",
+    "TopicState",
+    "InterventionType",
+    "ReadinessScore",
+    "TopicNode",
+    "InterventionDecision",
+    "calculate_topic_readiness",
+    # Cognitive Flexibility Theory (WO-AE-008)
+    "CFTEngine",
+    "ExpertLens",
+    "DomainType",
+    "TransferStatus",
+    "EntryPoint",
+    "CaseStudy",
+    "ConceptLandscape",
+    "LensConfiguration",
+    "LearnerCFTState",
+    "BiasDetection",
+    "TransferReadinessMetrics",
+    "CrissCrossAction",
+    "CaseLibrary",
+    "PerspectiveCoverage",
+    "DEFAULT_LENSES",
+    "create_default_cft_engine",
 ]
