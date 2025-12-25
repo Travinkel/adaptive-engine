@@ -198,6 +198,60 @@ except Exception:  # pragma: no cover
     DEFAULT_LENSES = None  # type: ignore
     create_default_cft_engine = None  # type: ignore
 
+try:  # Dream Consolidation Engine (WO-AE-009)
+    from .dream_consolidator import (  # type: ignore
+        # Main engine
+        DreamConsolidator,
+        # Component classes
+        WeakNodeScanner,
+        InterferenceAnalyzer,
+        DecayProjector,
+        ConsolidationPathOptimizer,
+        # State/data classes
+        ConceptState,
+        FragilityScore,
+        InterferencePair,
+        ConsolidationAtom,
+        DecayProjection,
+        SchedulingAnalysis,
+        StabilityDistribution,
+        MorningBootInfo,
+        ConsolidationEffectiveness,
+        LearnerPattern,
+        SimulationResults,
+        # Enums
+        WeaknessType,
+        AtomType,
+        ReviewUrgency,
+        InterferenceRisk,
+        StabilityRange,
+        # Factory
+        create_dream_consolidator,
+    )
+except Exception:  # pragma: no cover
+    DreamConsolidator = None  # type: ignore
+    WeakNodeScanner = None  # type: ignore
+    InterferenceAnalyzer = None  # type: ignore
+    DecayProjector = None  # type: ignore
+    ConsolidationPathOptimizer = None  # type: ignore
+    ConceptState = None  # type: ignore
+    FragilityScore = None  # type: ignore
+    InterferencePair = None  # type: ignore
+    ConsolidationAtom = None  # type: ignore
+    DecayProjection = None  # type: ignore
+    SchedulingAnalysis = None  # type: ignore
+    StabilityDistribution = None  # type: ignore
+    MorningBootInfo = None  # type: ignore
+    ConsolidationEffectiveness = None  # type: ignore
+    LearnerPattern = None  # type: ignore
+    SimulationResults = None  # type: ignore
+    WeaknessType = None  # type: ignore
+    AtomType = None  # type: ignore
+    ReviewUrgency = None  # type: ignore
+    InterferenceRisk = None  # type: ignore
+    StabilityRange = None  # type: ignore
+    create_dream_consolidator = None  # type: ignore
+
 __all__ = [
     # Main engine
     "LearningEngine",
@@ -282,4 +336,27 @@ __all__ = [
     "PerspectiveCoverage",
     "DEFAULT_LENSES",
     "create_default_cft_engine",
+    # Dream Consolidation Engine (WO-AE-009)
+    "DreamConsolidator",
+    "WeakNodeScanner",
+    "InterferenceAnalyzer",
+    "DecayProjector",
+    "ConsolidationPathOptimizer",
+    "ConceptState",
+    "FragilityScore",
+    "InterferencePair",
+    "ConsolidationAtom",
+    "DecayProjection",
+    "SchedulingAnalysis",
+    "StabilityDistribution",
+    "MorningBootInfo",
+    "ConsolidationEffectiveness",
+    "LearnerPattern",
+    "SimulationResults",
+    "WeaknessType",
+    "AtomType",
+    "ReviewUrgency",
+    "InterferenceRisk",
+    "StabilityRange",
+    "create_dream_consolidator",
 ]
