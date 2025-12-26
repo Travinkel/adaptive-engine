@@ -7,4 +7,9 @@ dependencies = [
     "pydantic",
     "sqlalchemy",
     "loguru",
+    "torch",
+    "torchcde",
+    "psycopg2-binary",
+    "scipy",
+    "numpy",
 ]
