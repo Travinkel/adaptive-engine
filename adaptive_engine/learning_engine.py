@@ -47,6 +47,7 @@ from .persona_service import (
 )
 from .remediation_router import RemediationRouter
 from .suitability_scorer import SuitabilityScorer
+from .voa.manager import VOAManager
 from astartes_shared.database import session_scope
 
 # Optional imports for Cortex 2.0 features
@@ -101,6 +102,7 @@ class LearningEngine:
         self._session_histories: dict[UUID, list[dict]] = {}
         self._session_error_streaks: dict[UUID, int] = {}
         self._session_start_times: dict[UUID, datetime] = {}
+        self._voa_managers: dict[UUID, VOAManager] = {}
 
         # Cortex 2.0 components
         self._zscore_engine: ZScoreEngine | None = None
@@ -208,6 +210,7 @@ class LearningEngine:
             self._session_histories[session_id] = []
             self._session_error_streaks[session_id] = 0
             self._session_start_times[session_id] = datetime.utcnow()
+            self._voa_managers[session_id] = VOAManager()
 
             # Initialize session statistics for persona updates
             self._session_stats[session_id] = SessionStatistics(
@@ -308,6 +311,8 @@ class LearningEngine:
                 current_atom=current_atom,
                 next_atom=next_atom,
                 started_at=row.started_at,
+                voa_classification=self._voa_managers[session_id].classification if session_id in self._voa_managers else None,
+                voa_feedback=self._voa_managers[session_id].feedback if session_id in self._voa_managers else None,
             )
 
     def end_session(
@@ -325,6 +330,9 @@ class LearningEngine:
         Returns:
             Final SessionState
         """
+        if voa_manager := self._voa_managers.get(session_id):
+            voa_manager.process_session()
+
         with self._get_session() as session:
             query = text("""
                 UPDATE learning_path_sessions
@@ -460,6 +468,10 @@ class LearningEngine:
 
             # Update session progress
             self._update_session_progress(session, session_id, is_correct)
+
+            # VOA Metric Collection
+            if voa_manager := self._voa_managers.get(session_id):
+                voa_manager.add_telemetry(is_correct, response_time_ms)
 
             # =====================================================================
             # Update Session Statistics for Persona
@@ -1613,6 +1625,7 @@ class LearningEngine:
         self._session_error_streaks.pop(session_id, None)
         self._session_start_times.pop(session_id, None)
         self._session_stats.pop(session_id, None)
+        self._voa_managers.pop(session_id, None)
 
     def get_learner_persona(self, learner_id: str = "default") -> LearnerPersona:
         """
