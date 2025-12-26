@@ -1763,6 +1763,70 @@ class LearningEngine:
         concept = atom_info.get("concept_name", "this concept")
         return f"Take a moment to think about {concept}. What do you already know about it?"
 
+    def run_casi_analysis(
+        self, base_case_id: str, target_case_ids: list[str], cases: list[dict]
+    ) -> dict:
+        """
+        Run a full Conclusion-verified Analogical Schema Induction analysis.
+
+        Args:
+            base_case_id: The ID of the base case for analogy.
+            target_case_ids: A list of target case IDs to map against.
+            cases: A list of all case data.
+
+        Returns:
+            A dictionary containing the final extracted schema and analysis results.
+        """
+        from .casi.schema_mapper import SchemaMapper
+        from .casi.conclusion_verifier import ConclusionVerifier
+        from .casi.transfer_scorer import TransferScorer
+        from .casi.schema_extractor import SchemaExtractor
+        from .casi.surface_validator import SurfaceValidator
+
+        sme = SchemaMapper(cases)
+        verifier = ConclusionVerifier() # Simplified KB for now
+        scorer = TransferScorer() # Simplified ontology
+        extractor = SchemaExtractor()
+        validator = SurfaceValidator(
+            cases_with_attributes={c["id"]: c for c in cases}
+        )
+
+        valid_mappings = []
+        analysis_results = {}
+
+        for target_id in target_case_ids:
+            mapping = sme.map_cases(base_case_id, target_id)
+            if not mapping:
+                analysis_results[target_id] = "Mapping failed"
+                continue
+
+            if not validator.is_mapping_deep(mapping):
+                analysis_results[target_id] = "Mapping is superficial"
+                continue
+
+            target_case = next((c for c in cases if c["id"] == target_id), None)
+            valid_inferences = verifier.filter_valid_inferences(mapping, target_case)
+            if not valid_inferences:
+                analysis_results[target_id] = "No valid inferences"
+                continue
+
+            mapping.candidate_inferences = valid_inferences
+            transfer_type, _ = scorer.score_transfer(mapping)
+
+            if transfer_type == "far":
+                 valid_mappings.append(mapping)
+                 analysis_results[target_id] = "Successful far-transfer mapping"
+            else:
+                 analysis_results[target_id] = "Successful near-transfer mapping (not used for schema)"
+
+
+        if not valid_mappings:
+            return {"schema": None, "analysis": analysis_results}
+
+        base_cases = {c["id"]: c for c in cases if c["id"] in {m.base_case_id for m in valid_mappings}}
+        schema = extractor.extract_schema(valid_mappings, base_cases)
+        return {"schema": schema, "analysis": analysis_results}
+
     def _get_session(self):
         """Get session context manager."""
         if self._session:
