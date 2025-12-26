@@ -362,6 +362,8 @@ class SessionState:
     next_atom: AtomPresentation | None = None
     active_remediation: RemediationPlan | None = None
     started_at: datetime | None = None
+    voa_classification: str | None = None
+    voa_feedback: str | None = None
 
     @property
     def is_active(self) -> bool:
