@@ -403,6 +403,21 @@ class LearningEngine:
             session_start = self._session_start_times.get(session_id, datetime.utcnow())
             session_duration_seconds = int((datetime.utcnow() - session_start).total_seconds())
 
+            # Query confusable atoms for discrimination analysis
+            confusable_atoms = []
+            if atom_info.get("concept_id"):
+                try:
+                    confusable_uuids = self._get_contrastive_atoms(
+                        session,
+                        UUID(atom_info["concept_id"]),
+                        atom_id,
+                        limit=5,
+                    )
+                    # Convert to list of dicts as expected by diagnose_interaction
+                    confusable_atoms = [{"id": str(uid)} for uid in confusable_uuids]
+                except Exception as e:
+                    logger.warning(f"Failed to query confusable atoms: {e}")
+
             # Run cognitive diagnosis
             diagnosis = diagnose_interaction(
                 atom=atom_info,
@@ -411,7 +426,7 @@ class LearningEngine:
                 recent_history=recent_history,
                 session_duration_seconds=session_duration_seconds,
                 session_error_streak=error_streak,
-                confusable_atoms=None,  # TODO: Query confusable atoms by concept
+                confusable_atoms=confusable_atoms,
             )
 
             # Update session history for future diagnoses
